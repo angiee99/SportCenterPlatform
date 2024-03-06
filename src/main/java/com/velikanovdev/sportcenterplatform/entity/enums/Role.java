@@ -1,6 +1,6 @@
-package com.velikanovdev.sportcenterplatform.entity.enums;
-
-public enum Role {
-    ADMINISTRATOR,
-    CLIENT
-}
+//package com.velikanovdev.sportcenterplatform.entity.enums;
+//
+//public enum Role {
+//    ADMINISTRATOR,
+//    CLIENT
+//}

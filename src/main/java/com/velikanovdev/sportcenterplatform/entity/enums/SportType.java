@@ -1,5 +1,5 @@
-package com.velikanovdev.sportcenterplatform.entity.enums;
-
-public enum SportType {
-
-}
+//package com.velikanovdev.sportcenterplatform.entity.enums;
+//
+//public enum SportType {
+//
+//}
