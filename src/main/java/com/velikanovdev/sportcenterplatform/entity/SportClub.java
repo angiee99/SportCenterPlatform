@@ -18,10 +18,9 @@ public class SportClub {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
+    @Column(name = "name", nullable = false)
     private String name;
 
-    @Lob
     @Column(name = "logo")
     private byte[] logo;  // Assuming the logo is stored as a binary data
 

@@ -16,6 +16,7 @@ public class Result {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     // Assuming rating is stored as JSON String
+    @Column(name = "rating")
     private String rating;
 
     @OneToOne(fetch = FetchType.LAZY)

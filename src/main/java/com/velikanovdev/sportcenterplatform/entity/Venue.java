@@ -18,8 +18,10 @@ public class Venue {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "number")
     private Integer number;
 
+    @Column(name = "floor")
     private Integer floor;
 
     @OneToOne(fetch = FetchType.LAZY)

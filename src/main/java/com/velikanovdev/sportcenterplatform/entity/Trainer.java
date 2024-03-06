@@ -1,6 +1,5 @@
 package com.velikanovdev.sportcenterplatform.entity;
 
-import com.velikanovdev.sportcenterplatform.entity.enums.SportType;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -16,11 +15,11 @@ import java.util.List;
 public class Trainer {
 
     @Id
-    @Column(name = "user_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Enumerated(EnumType.STRING)
-    private SportType specialization;
+//    @Enumerated(EnumType.STRING)
+//    private SportType specialization;
 
     @OneToOne
     @JoinColumn(name = "user_id")

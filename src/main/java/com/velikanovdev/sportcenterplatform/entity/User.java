@@ -1,6 +1,5 @@
 package com.velikanovdev.sportcenterplatform.entity;
 
-import com.velikanovdev.sportcenterplatform.entity.enums.Role;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -22,10 +21,10 @@ public class User {
     @Column(name = "login_name", nullable = false, unique = true)
     private String loginName;
 
-    @Column(nullable = false)
+    @Column(name = "name", nullable = false)
     private String name;
 
-    @Column(nullable = false, unique = true)
+    @Column(name = "email", nullable = false, unique = true)
     private String email;
 
     @Column(name = "password_hash", nullable = false)
@@ -34,9 +33,9 @@ public class User {
     @Column(name = "password_salt", nullable = false)
     private String passwordSalt;
 
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
-    private Role role;
+//    @Enumerated(EnumType.STRING)
+//    @Column(nullable = false)
+//    private Role role;
 
     // Assuming a user can have multiple registrations
     @OneToMany(mappedBy = "user")

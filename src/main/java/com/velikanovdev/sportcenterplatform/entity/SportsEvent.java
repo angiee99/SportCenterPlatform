@@ -1,6 +1,5 @@
 package com.velikanovdev.sportcenterplatform.entity;
 
-import com.velikanovdev.sportcenterplatform.entity.enums.SportType;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -18,12 +17,15 @@ public class SportsEvent {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "capacity")
     private Integer capacity;
 
+    @Column(name = "description")
     private String description;
 
-    @OneToMany(mappedBy = "eventType")
-    private List<EventType> types;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "event_type_id")
+    private EventType eventType;
 
     @OneToMany(mappedBy = "sportsEvent")
     private List<Schedule> schedules;

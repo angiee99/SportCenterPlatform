@@ -25,9 +25,6 @@ public class Schedule {
     @Column(name = "end_time")
     private LocalDateTime endTime;
 
-    // Assuming breaks is a JSON or a String
-    private String breaks;
-
     @OneToMany(mappedBy = "schedule")
     private List<Registration> registrations;
 
