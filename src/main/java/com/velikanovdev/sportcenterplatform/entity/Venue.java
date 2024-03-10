@@ -25,7 +25,7 @@ public class Venue {
     private Integer floor;
 
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "address_id")
+    @JoinColumn(name = "address_id", foreignKey = @ForeignKey(name = "FK_venues_address"))
     private Address address;
 
     // One Venue can be associated with many SportsEvents

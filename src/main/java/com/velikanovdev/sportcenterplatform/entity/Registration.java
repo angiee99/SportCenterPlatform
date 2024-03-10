@@ -23,10 +23,10 @@ public class Registration {
     private LocalDateTime registrationTime;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "user_id", foreignKey = @ForeignKey(name = "FK_registrations_users"))
     private User user;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "schedule_id")
+    @JoinColumn(name = "schedule_id", foreignKey = @ForeignKey(name = "FK_registrations_schedules"))
     private Schedule schedule;
 }

@@ -1,5 +1,6 @@
 package com.velikanovdev.sportcenterplatform.entity;
 
+import com.velikanovdev.sportcenterplatform.entity.enums.SportType;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -18,8 +19,8 @@ public class EventType {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-//    @Enumerated(EnumType.STRING)
-//    private SportType sport;
+    @Enumerated(EnumType.STRING)
+    private SportType sport;
 
     @Column(name = "age_restriction")
     private String ageRestriction;

@@ -20,6 +20,6 @@ public class Result {
     private String rating;
 
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "sports_event_id")
+    @JoinColumn(name = "sports_event_id", foreignKey = @ForeignKey(name = "FK_results_sports_events"))
     private SportsEvent sportsEvent;
 }

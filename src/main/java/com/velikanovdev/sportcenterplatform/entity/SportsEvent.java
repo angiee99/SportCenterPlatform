@@ -17,14 +17,11 @@ public class SportsEvent {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "capacity")
-    private Integer capacity;
-
     @Column(name = "description")
     private String description;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "event_type_id")
+    @JoinColumn(name = "event_type_id", foreignKey = @ForeignKey(name = "FK_sports_events_event_types"))
     private EventType eventType;
 
     @OneToMany(mappedBy = "sportsEvent")
@@ -32,10 +29,10 @@ public class SportsEvent {
 
     // Many SportsEvents can be associated with one Venue
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "venue_id")
+    @JoinColumn(name = "venue_id", foreignKey = @ForeignKey(name = "FK_sports_events_venues"))
     private Venue venue;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "trainer_id")
+    @JoinColumn(name = "trainer_id", foreignKey = @ForeignKey(name = "FK_sports_events_trainers"))
     private Trainer trainer;
 }

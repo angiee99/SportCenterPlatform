@@ -19,6 +19,9 @@ public class Schedule {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "capacity")
+    private Integer capacity;
+
     @Column(name = "start_time")
     private LocalDateTime startTime;
 
@@ -29,6 +32,6 @@ public class Schedule {
     private List<Registration> registrations;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "sports_event_id") // Adjust the column name as necessary
+    @JoinColumn(name = "sports_event_id", foreignKey = @ForeignKey(name = "FK_schedules_sports_events"))
     private SportsEvent sportsEvent;
 }

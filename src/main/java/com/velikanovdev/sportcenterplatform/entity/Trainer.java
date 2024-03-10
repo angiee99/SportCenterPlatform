@@ -18,11 +18,8 @@ public class Trainer {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-//    @Enumerated(EnumType.STRING)
-//    private SportType specialization;
-
     @OneToOne
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "user_id", foreignKey = @ForeignKey(name = "FK_trainer_user_id"))
     private User user;
 
     @OneToMany(mappedBy = "trainer")
