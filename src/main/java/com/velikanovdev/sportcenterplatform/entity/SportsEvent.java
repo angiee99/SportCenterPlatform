@@ -34,5 +34,5 @@ public class SportsEvent {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "trainer_id", foreignKey = @ForeignKey(name = "FK_sports_events_trainers"))
-    private Trainer trainer;
+    private User trainer;
 }

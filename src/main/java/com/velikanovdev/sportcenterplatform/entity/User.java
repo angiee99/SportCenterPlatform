@@ -33,18 +33,12 @@ public class User {
     @Column(name = "password_salt", nullable = false)
     private String passwordSalt;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "trainer_id", foreignKey = @ForeignKey(name = "FK_personal_trainer_id"))
-    private Trainer personalTrainer;
+    @OneToMany(mappedBy = "trainer")
+    private List<SportsEvent> sportsEvents;
 
     // Assuming a user can have multiple registrations
     @OneToMany(mappedBy = "user")
     private List<Registration> registrations;
-
-    // Bi-directional relationship (if a user can be a trainer)
-    @OneToOne(mappedBy = "user", fetch = FetchType.LAZY)
-    private Trainer trainer;
-
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "sport_club_id", foreignKey = @ForeignKey(name = "FK_users_sport_clubs"))
