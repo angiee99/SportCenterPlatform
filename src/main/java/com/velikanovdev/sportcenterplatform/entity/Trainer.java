@@ -1,5 +1,6 @@
 package com.velikanovdev.sportcenterplatform.entity;
 
+import com.velikanovdev.sportcenterplatform.entity.enums.SportType;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -21,6 +22,12 @@ public class Trainer {
     @OneToOne
     @JoinColumn(name = "user_id", foreignKey = @ForeignKey(name = "FK_trainer_user_id"))
     private User user;
+
+    @OneToMany(mappedBy = "personalTrainer")
+    private List<User> trainees;
+
+    @Enumerated(EnumType.STRING)
+    private SportType specialization;
 
     @OneToMany(mappedBy = "trainer")
     private List<SportsEvent> sportsEvents;
