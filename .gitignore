@@ -34,3 +34,10 @@ build/
 
 ### VS Code ###
 .vscode/
+
+
+bin/
+obj/
+/packages/
+riderModule.iml
+/_ReSharper.Caches/
