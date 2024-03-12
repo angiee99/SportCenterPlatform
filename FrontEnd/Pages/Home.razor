@@ -1,0 +1,157 @@
+@page "/"
+@using SportCenter.Models
+@using SportCenter.Enum
+
+<PageTitle>Home</PageTitle>
+
+<div class="flex flex-col overflow-x-auto my-2 md:my-4">
+    <table>
+        <thead>
+        <tr>
+            @foreach (var column in _columns)
+            {
+                <th>
+                    <div class="text-center">
+                        @column.Header
+                        <div class="text-black">
+                            @if (column.CanFilter)
+                            {
+                                <input type="text"/>
+                            }
+                        </div>
+                        @if (column.CanSort)
+                        {
+                            <span>SORT</span>
+                        }
+                        else
+                        {
+                            <span>.</span>
+                        }
+                    </div>
+                </th>
+            }
+        </tr >
+        </thead>
+        <tbody>
+        @for (int i = (CurrentPage - 1) * CurrentPageSize; i < Math.Min(CurrentPageSize * CurrentPage, _data.Count); i++)
+        {
+            var row = _data[i];
+            <tr>
+                <td class="text-center">
+                    @row.Id
+                </td>
+                <td class="text-center">
+                    @row.Description
+                </td>
+                <td class="text-center">
+                    @row.Capacity
+                </td>
+                <td class="text-center">
+                    @row.DateTime
+                </td>
+                <td class="text-center">
+                    @row.Location
+                </td>
+                <td class="text-center">
+                    @row.Type
+                </td>
+                <td>
+                    <button>Podrobnosti</button>
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+</div>
+<div class="flex pagination gap-1">
+    <button @onclick="@FirstPage">Go to first page</button>
+    <button @onclick="@PreviousPage">Previous page</button>
+    <button @onclick="@NextPage">Next page</button>
+    <button class="ajndfvdavk" @onclick="@LastPage">Go to last page</button>
+    <span>
+        Page <strong>@(CurrentPage) of @TotalPages</strong>
+    </span>
+    <span>
+        | Go to page:
+        <input type="number" @oninput="(e) => GoToPage(int.Parse(e.Value?.ToString() ?? string.Empty))" style="width: 100px"/>
+    </span>
+    <select @onchange="(e) => SetPageSize(int.Parse(e.Value?.ToString() ?? string.Empty))">
+        @foreach (var maxPageSize in PageSizes)
+        {
+            <option value="@maxPageSize">Show @maxPageSize</option>
+        }
+    </select>
+</div>
+
+@code
+{
+    int[] PageSizes { get; set; } = [5, 10, 20, 50];
+    int CurrentPage { get; set; }
+    int CurrentPageSize { get; set; }
+    int TotalPages { get; set; }
+
+    private static TableData DataGenerator(int id, string description, int capacity, DateTime date, double altitude, double latitude, string adresa, SportType sport)
+    {
+        return new TableData(id, description, capacity, date, altitude, latitude, adresa, sport);
+    }
+
+    readonly List<TableData> _data = new List<TableData>(60);
+
+    protected override void OnInitialized()
+    {
+        Random random = new Random();
+        for (int i = 0; i < 60; i++)
+        {
+            _data.Add(DataGenerator(i, "Popis" + random.Next(100), random.Next(0, 20), DateTime.Now, random.NextDouble() * 50, random.NextDouble() * 50, "Adresa", (SportType)random.Next(0, 20)));
+        }
+
+        CurrentPage = 1;
+        CurrentPageSize = 5;
+        TotalPages = (int)Math.Ceiling(_data.Count / (double)CurrentPageSize);
+    }
+
+
+    readonly List<TableColumn> _columns = new List<TableColumn>()
+    {
+        new TableColumn("Id", true, true),
+        new TableColumn("Popis", true, false),
+        new TableColumn("Kapacita", true, true),
+        new TableColumn("Datum", true, true),
+        new TableColumn("Adresa", true, true),
+        new TableColumn("Sport", true, true),
+    };
+
+    private void SetPageSize(int pageSize)
+    {
+        CurrentPageSize = pageSize;
+        TotalPages = (int)Math.Ceiling(_data.Count / (double)CurrentPageSize);
+    }
+
+    private void GoToPage(int page)
+    {
+        if (page > 0 && page <= TotalPages)
+        {
+            CurrentPage = page;
+        }
+    }
+
+    private void FirstPage()
+    {
+        GoToPage(1);
+    }
+
+    private void LastPage()
+    {
+        GoToPage(TotalPages);
+    }
+
+    private void NextPage()
+    {
+        GoToPage(CurrentPage + 1);
+    }
+
+    private void PreviousPage()
+    {
+        GoToPage(CurrentPage - 1);
+    }
+}
