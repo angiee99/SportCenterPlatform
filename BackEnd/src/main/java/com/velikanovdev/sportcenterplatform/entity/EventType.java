@@ -31,7 +31,29 @@ public class EventType {
     @OneToMany(mappedBy = "eventType")
     private List<SportsEvent> sportsEvents;
 
-//    @OneToMany(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "event_type_id")
-//    private EventType eventType;
+    public EventType(SportType sport, String ageRestriction, String description) {
+        this.sport = sport;
+        this.ageRestriction = ageRestriction;
+        this.description = description;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public SportType getSport() {
+        return sport;
+    }
+
+    public String getAgeRestriction() {
+        return ageRestriction;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public List<SportsEvent> getSportsEvents() {
+        return sportsEvents;
+    }
 }

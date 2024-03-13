@@ -31,4 +31,30 @@ public class Venue {
     // One Venue can be associated with many SportsEvents
     @OneToMany(mappedBy = "venue")
     private List<SportsEvent> sportsEvents;
+
+    public Venue(Integer number, Integer floor, Address address) {
+        this.number = number;
+        this.floor = floor;
+        this.address = address;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public Integer getNumber() {
+        return number;
+    }
+
+    public Integer getFloor() {
+        return floor;
+    }
+
+    public Address getAddress() {
+        return address;
+    }
+
+    public List<SportsEvent> getSportsEvents() {
+        return sportsEvents;
+    }
 }
