@@ -27,4 +27,29 @@ public class SportClub {
     // Assuming a sports club can have multiple users
     @OneToMany(mappedBy = "sportClub")
     private List<User> users;
+
+    public SportClub(String name) {
+        this.name = name;
+    }
+
+    public SportClub(String name, byte[] logo) {
+        this.name = name;
+        this.logo = logo;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public byte[] getLogo() {
+        return logo;
+    }
+
+    public List<User> getUsers() {
+        return users;
+    }
 }
