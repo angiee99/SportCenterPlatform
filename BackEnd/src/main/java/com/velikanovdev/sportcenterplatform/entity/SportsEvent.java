@@ -3,6 +3,7 @@ package com.velikanovdev.sportcenterplatform.entity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
@@ -10,6 +11,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
+@Getter
 @Entity
 @Table(name = "sports_events")
 public class SportsEvent {
@@ -35,4 +37,12 @@ public class SportsEvent {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "trainer_id", foreignKey = @ForeignKey(name = "FK_sports_events_trainers"))
     private User trainer;
+
+    public SportsEvent(String description, EventType eventType, Venue venue, User trainer) {
+        this.description = description;
+        this.eventType = eventType;
+        this.venue = venue;
+        this.trainer = trainer;
+    }
+
 }

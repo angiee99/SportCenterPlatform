@@ -3,6 +3,7 @@ package com.velikanovdev.sportcenterplatform.entity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
@@ -10,6 +11,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
+@Getter
 @Entity
 @Table(name = "sport_clubs")
 public class SportClub {
@@ -37,19 +39,4 @@ public class SportClub {
         this.logo = logo;
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public byte[] getLogo() {
-        return logo;
-    }
-
-    public List<User> getUsers() {
-        return users;
-    }
 }

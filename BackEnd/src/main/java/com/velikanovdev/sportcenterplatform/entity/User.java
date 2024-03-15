@@ -3,6 +3,7 @@ package com.velikanovdev.sportcenterplatform.entity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
@@ -10,6 +11,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
+@Getter
 @Entity
 @Table(name = "users")
 public class User {
@@ -40,4 +42,20 @@ public class User {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "sport_club_id", foreignKey = @ForeignKey(name = "FK_users_sport_clubs"))
     private SportClub sportClub;
+
+    public User(String name, String email, String passwordHash, String passwordSalt) {
+        this.name = name;
+        this.email = email;
+        this.passwordHash = passwordHash;
+        this.passwordSalt = passwordSalt;
+    }
+
+    public User(String name, String email, String passwordHash, String passwordSalt, SportClub sportClub) {
+        this.name = name;
+        this.email = email;
+        this.passwordHash = passwordHash;
+        this.passwordSalt = passwordSalt;
+        this.sportClub = sportClub;
+    }
+
 }

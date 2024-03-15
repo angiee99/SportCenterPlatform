@@ -3,6 +3,7 @@ package com.velikanovdev.sportcenterplatform.entity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
@@ -10,6 +11,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
+@Getter
 @Entity
 @Table(name = "venues")
 public class Venue {
@@ -38,23 +40,4 @@ public class Venue {
         this.address = address;
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public Integer getNumber() {
-        return number;
-    }
-
-    public Integer getFloor() {
-        return floor;
-    }
-
-    public Address getAddress() {
-        return address;
-    }
-
-    public List<SportsEvent> getSportsEvents() {
-        return sportsEvents;
-    }
 }

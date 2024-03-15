@@ -4,6 +4,7 @@ import com.velikanovdev.sportcenterplatform.entity.enums.SportType;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
@@ -11,6 +12,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
+@Getter
 @Entity
 @Table(name = "event_types")
 public class EventType {
@@ -35,25 +37,5 @@ public class EventType {
         this.sport = sport;
         this.ageRestriction = ageRestriction;
         this.description = description;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public SportType getSport() {
-        return sport;
-    }
-
-    public String getAgeRestriction() {
-        return ageRestriction;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public List<SportsEvent> getSportsEvents() {
-        return sportsEvents;
     }
 }
