@@ -3,12 +3,14 @@ package com.velikanovdev.sportcenterplatform.entity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
 @Entity
+@Getter
 @Table(name = "addresses")
 public class Address {
 
@@ -27,4 +29,12 @@ public class Address {
 
     @Column(name = "city")
     private String city;
+
+    public Address(String postalCode, String street, String streetNumber, String city) {
+        this.postalCode = postalCode;
+        this.street = street;
+        this.streetNumber = streetNumber;
+        this.city = city;
+    }
+
 }

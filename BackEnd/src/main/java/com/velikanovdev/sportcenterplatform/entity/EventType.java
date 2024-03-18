@@ -4,6 +4,7 @@ import com.velikanovdev.sportcenterplatform.entity.enums.SportType;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
@@ -11,6 +12,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
+@Getter
 @Entity
 @Table(name = "event_types")
 public class EventType {
@@ -31,7 +33,9 @@ public class EventType {
     @OneToMany(mappedBy = "eventType")
     private List<SportsEvent> sportsEvents;
 
-//    @OneToMany(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "event_type_id")
-//    private EventType eventType;
+    public EventType(SportType sport, String ageRestriction, String description) {
+        this.sport = sport;
+        this.ageRestriction = ageRestriction;
+        this.description = description;
+    }
 }

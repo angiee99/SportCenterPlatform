@@ -3,14 +3,15 @@ package com.velikanovdev.sportcenterplatform.entity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
+@Getter
 @Entity
 @Table(name = "registrations")
 public class Registration {
@@ -29,4 +30,11 @@ public class Registration {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "schedule_id", foreignKey = @ForeignKey(name = "FK_registrations_schedules"))
     private Schedule schedule;
+
+    public Registration(LocalDateTime registrationTime, User user, Schedule schedule) {
+        this.registrationTime = registrationTime;
+        this.user = user;
+        this.schedule = schedule;
+    }
+
 }
