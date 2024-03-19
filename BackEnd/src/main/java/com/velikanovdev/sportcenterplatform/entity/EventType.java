@@ -1,5 +1,6 @@
 package com.velikanovdev.sportcenterplatform.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.velikanovdev.sportcenterplatform.entity.enums.SportType;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -12,7 +13,6 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-@Getter
 @Entity
 @Table(name = "event_types")
 public class EventType {

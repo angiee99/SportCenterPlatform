@@ -40,4 +40,9 @@ public class Venue {
         this.address = address;
     }
 
+    @Override
+    public String toString() {
+        return "number=" + number +
+                ", floor=" + floor + ", " + address;
+    }
 }
