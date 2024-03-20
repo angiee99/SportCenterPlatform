@@ -23,6 +23,9 @@ public class SportsEvent {
     @Column(name = "capacity")
     private Integer capacity;
 
+    @Column(name = "isAvailable")
+    private Boolean isAvailable;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "event_type_id", foreignKey = @ForeignKey(name = "FK_sports_events_event_types"))
     private EventType eventType;
@@ -39,8 +42,9 @@ public class SportsEvent {
     @JoinColumn(name = "trainer_id", foreignKey = @ForeignKey(name = "FK_sports_events_trainers"))
     private User trainer;
 
-    public SportsEvent(String description, Integer capacity, EventType eventType, Venue venue, User trainer) {
+    public SportsEvent(String description, Boolean isAvailable, Integer capacity, EventType eventType, Venue venue, User trainer) {
         this.description = description;
+        this.isAvailable = isAvailable;
         this.capacity = capacity;
         this.eventType = eventType;
         this.venue = venue;
