@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@RequestMapping("/event")
 public class EventController {
     private final EventService eventService;
 
@@ -27,7 +28,7 @@ public class EventController {
         return ResponseEntity.ok("Created event: " + createdEvent);
     }
 
-    @GetMapping("/event/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<SportsEvent> getEvent(@PathVariable Long id) {
         SportsEvent sportEvent = eventService.getEvent(id);
         if(sportEvent == null) {
@@ -36,7 +37,7 @@ public class EventController {
         return ResponseEntity.ok(sportEvent);
     }
 
-    @GetMapping("/events")
+    @GetMapping("/allEvents")
     public ResponseEntity<List<SportsEventDTO>> getAllEvents() {
         List<SportsEventDTO> sportsEvents = eventService.getAllEvents();
 
