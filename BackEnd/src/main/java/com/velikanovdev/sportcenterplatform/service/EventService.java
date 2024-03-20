@@ -58,7 +58,8 @@ public class EventService {
             SportsEventDTO eventDTO = new SportsEventDTO();
             eventDTO.setId(event.getId());
             eventDTO.setDescription(event.getDescription());
-            eventDTO.setAvailable(event.isAvailable());
+            eventDTO.setCapacity(event.getCapacity());
+            eventDTO.setIsAvailable(event.isAvailable());
             eventDTO.setSportType(event.getEventType().getSport());
             eventDTO.setAgeRestriction(event.getEventType().getAgeRestriction());
             eventDTO.setEventTypeDescription(event.getEventType().getDescription());

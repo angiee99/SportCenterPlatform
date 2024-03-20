@@ -11,7 +11,8 @@ import lombok.NoArgsConstructor;
 public class SportsEventDTO {
     private Long id;
     private String description;
-    private boolean isAvailable;
+    private Integer capacity;
+    private Boolean isAvailable;
     private SportType sportType;
     private String ageRestriction;
     private String eventTypeDescription;
