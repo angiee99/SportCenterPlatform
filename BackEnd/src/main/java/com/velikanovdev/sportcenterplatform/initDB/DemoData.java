@@ -69,20 +69,20 @@ public class DemoData implements ApplicationRunner {
                 "dontTakeMyFries", "78kdoAAwiefl8-dk");
         userRepository.saveAll(List.of(user1, user2 ,user3, user4));
 
-        SportsEvent event1 = new SportsEvent("Game kick-off!", eventType1, venue1, user1);
-        SportsEvent event2 = new SportsEvent("Get some rest from school – come&play", eventType2, venue2, user2);
+        SportsEvent event1 = new SportsEvent("Game kick-off!", 20, eventType1, venue1, user1);
+        SportsEvent event2 = new SportsEvent("Get some rest from school – come&play", 36, eventType2, venue2, user2);
         sportsEventRepository.saveAll(List.of(event1, event2));
 
-        Schedule schedule1_1 = new Schedule(20,  LocalDateTime.of(2024, 4, 12, 13, 0),
+        Schedule schedule1_1 = new Schedule( LocalDateTime.of(2024, 4, 12, 13, 0),
                 LocalDateTime.of(2024, 4, 12, 15, 0),
                 event1);
-        Schedule schedule1_2 = new Schedule(30,  LocalDateTime.of(2024, 4, 12, 16, 0),
+        Schedule schedule1_2 = new Schedule( LocalDateTime.of(2024, 4, 12, 16, 0),
                 LocalDateTime.of(2024, 4, 15, 18, 0),
                 event1);
-        Schedule schedule2 = new Schedule(26,  LocalDateTime.of(2024, 4, 5, 16, 30),
+        Schedule schedule2 = new Schedule( LocalDateTime.of(2024, 4, 5, 16, 30),
                 LocalDateTime.of(2024, 4, 5, 18, 0),
                 event2);
-        Schedule schedule3 = new Schedule(26,  LocalDateTime.of(2024, 3, 14, 16, 30),
+        Schedule schedule3 = new Schedule( LocalDateTime.of(2024, 3, 14, 16, 30),
                 LocalDateTime.of(2024, 3, 14, 18, 0),
                 event2);
         scheduleRepository.saveAll(List.of(schedule1_1, schedule1_2, schedule2, schedule3));
