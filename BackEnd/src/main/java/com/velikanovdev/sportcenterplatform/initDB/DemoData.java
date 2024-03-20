@@ -95,7 +95,7 @@ public class DemoData implements ApplicationRunner {
         Registration registration6 =  new Registration(LocalDateTime.now().minusDays(15), user4, schedule3);
         registrationRepository.saveAll(List.of(registration1, registration2, registration3,
                 registration4, registration5, registration6));
-
+        // testing delete
         registrationRepository.deleteByUserAndSchedule(user2.getId(), schedule1_1.getId());
         JSONObject result = new JSONObject();
         result.put("winner", "Finn");

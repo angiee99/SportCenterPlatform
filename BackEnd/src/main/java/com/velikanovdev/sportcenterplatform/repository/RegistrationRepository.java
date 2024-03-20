@@ -8,6 +8,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
+import java.util.List;
+
 public interface RegistrationRepository extends JpaRepository<Registration, Long> {
     @Modifying
     @Transactional
@@ -17,4 +19,10 @@ public interface RegistrationRepository extends JpaRepository<Registration, Long
             nativeQuery = true
     )
     void deleteByUserAndSchedule(Long userId, Long scheduleId);
+    @Query(
+            value = " SELECT r FROM registrations r" +
+                    " WHERE registrations.user_id = ?1",
+            nativeQuery = true
+    )
+    List<Registration> getRegistrationsByUserId(Long userId);
 }
