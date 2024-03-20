@@ -23,9 +23,14 @@ public class EventService {
         return eventRepository.save(event);
     }
 
-    public SportsEvent getEvent(Long id) {
+    public SportsEventDTO getEvent(Long id) {
         Optional<SportsEvent> sportsEvent = eventRepository.findById(id);
-        return sportsEvent.orElse(null);
+        SportsEventDTO eventDTO;
+        if(sportsEvent.isPresent()) {
+            eventDTO = convertSportsEventToDTO(List.of(sportsEvent.get())).get(0);
+            return eventDTO;
+        }
+        return null;
     }
 
     public List<SportsEventDTO> getAllEvents() {

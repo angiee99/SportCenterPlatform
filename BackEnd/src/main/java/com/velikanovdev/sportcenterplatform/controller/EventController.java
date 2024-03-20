@@ -29,8 +29,8 @@ public class EventController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<SportsEvent> getEvent(@PathVariable Long id) {
-        SportsEvent sportEvent = eventService.getEvent(id);
+    public ResponseEntity<SportsEventDTO> getEvent(@PathVariable Long id) {
+        SportsEventDTO sportEvent = eventService.getEvent(id);
         if(sportEvent == null) {
             return ResponseEntity.notFound().build();
         }
