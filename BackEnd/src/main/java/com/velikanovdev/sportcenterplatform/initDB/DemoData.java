@@ -38,11 +38,12 @@ public class DemoData implements ApplicationRunner {
         this.scheduleRepository = scheduleRepository;
         this.eventSignupRepository = eventSignupRepository;
         this.resultRepository = resultRepository;
-        this.enabled = true;
+        this.enabled = false;
     }
 
     @Override
     public void run(ApplicationArguments args) {
+        if(!enabled) return;
         Address address1 = new Address( "23456", "Palachova", "1", "Hradec Kralove");
         Address address2 = new Address( "23400", "Benesova", "306", "Hradec Kralove");
         addressesRepository.saveAll(List.of(address1, address2));
