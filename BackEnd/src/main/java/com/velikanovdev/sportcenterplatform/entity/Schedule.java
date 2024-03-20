@@ -26,7 +26,7 @@ public class Schedule {
     private LocalDateTime endTime;
 
     @OneToMany(mappedBy = "schedule")
-    private List<Registration> registrations;
+    private List<EventSignup> registrations;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "sports_event_id", foreignKey = @ForeignKey(name = "FK_schedules_sports_events"))

@@ -105,6 +105,7 @@ ALTER TABLE users ALTER COLUMN id SET DEFAULT nextval('users_id_seq');
 CREATE TABLE IF NOT EXISTS public.sports_events
 (
     capacity integer,
+    is_available boolean,
     event_type_id bigint,
     id bigint NOT NULL,
     trainer_id bigint,
@@ -156,31 +157,31 @@ CREATE SEQUENCE IF NOT EXISTS public.schedules_id_seq
     OWNED BY schedules.id;
 ALTER TABLE schedules ALTER COLUMN id SET DEFAULT nextval('schedules_id_seq');
 
-CREATE TABLE IF NOT EXISTS public.registrations
+CREATE TABLE IF NOT EXISTS public.event_signup
 (
     id bigint NOT NULL,
     registration_time timestamp(6) without time zone,
     schedule_id bigint,
     user_id bigint,
-    CONSTRAINT registrations_pkey PRIMARY KEY (id),
-    CONSTRAINT fk_registrations_schedules FOREIGN KEY (schedule_id)
+    CONSTRAINT event_signup_pkey PRIMARY KEY (id),
+    CONSTRAINT fk_event_signup_schedules FOREIGN KEY (schedule_id)
     REFERENCES public.schedules (id) MATCH SIMPLE
                                    ON UPDATE NO ACTION
                                    ON DELETE NO ACTION,
-    CONSTRAINT fk_registrations_users FOREIGN KEY (user_id)
+    CONSTRAINT fk_event_signup_users FOREIGN KEY (user_id)
     REFERENCES public.users (id) MATCH SIMPLE
                                    ON UPDATE NO ACTION
                                    ON DELETE NO ACTION
 );
 
-CREATE SEQUENCE IF NOT EXISTS public.registrations_id_seq
+CREATE SEQUENCE IF NOT EXISTS public.event_signup_id_seq
     INCREMENT 1
     START 1
     MINVALUE 1
     MAXVALUE 9223372036854775807
     CACHE 1
-    OWNED BY registrations.id;
-ALTER TABLE registrations ALTER COLUMN id SET DEFAULT nextval('registrations_id_seq');
+    OWNED BY event_signup.id;
+ALTER TABLE event_signup ALTER COLUMN id SET DEFAULT nextval('event_signup_id_seq');
 
 CREATE TABLE IF NOT EXISTS public.results
 (

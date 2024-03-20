@@ -23,12 +23,12 @@ public class EventSignup {
     private LocalDateTime registrationTime;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", foreignKey = @ForeignKey(name = "FK_registrations_users"))
+    @JoinColumn(name = "user_id", foreignKey = @ForeignKey(name = "FK_event_signup_users"))
     @ToString.Exclude
     private User user;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "schedule_id", foreignKey = @ForeignKey(name = "FK_registrations_schedules"))
+    @JoinColumn(name = "schedule_id", foreignKey = @ForeignKey(name = "FK_event_signup_schedules"))
     @ToString.Exclude
     private Schedule schedule;
 
