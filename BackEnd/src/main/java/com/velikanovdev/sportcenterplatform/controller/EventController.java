@@ -57,4 +57,10 @@ public class EventController {
 
         return ResponseEntity.ok(activeEvents);
     }
+
+
+    @GetMapping("/userEvents")
+    public ResponseEntity<List<SportsEventDTO>> getUserEvents(@RequestParam Long userId) {
+        return null;
+    }
 }

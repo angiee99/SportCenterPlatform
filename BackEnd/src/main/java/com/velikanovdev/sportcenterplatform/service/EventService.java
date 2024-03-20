@@ -56,6 +56,10 @@ public class EventService {
         return eventDTOS;
     }
 
+    public List<SportsEventDTO> getUserEvents(Long userId) {
+        return null;
+    }
+
     private List<SportsEventDTO> convertSportsEventToDTO(List<SportsEvent> sportsEvents) {
         List<SportsEventDTO> eventDTOS = new ArrayList<>();
 
