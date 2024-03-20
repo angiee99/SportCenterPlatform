@@ -10,10 +10,9 @@ import java.util.Objects;
 @Getter
 @Setter
 @ToString
-@NoArgsConstructor
 @RequiredArgsConstructor
 @Entity
-@Table(name = "registrations")
+@Table(name = "event_signup")
 public class EventSignup {
 
     @Id
