@@ -19,13 +19,24 @@ public class EventController {
         this.eventService = eventService;
     }
 
-    @PostMapping("/createEvent")
+    @PostMapping("/create")
     public ResponseEntity<?> createEvent(@RequestBody SportsEvent event) {
         if(event == null) {
             return ResponseEntity.badRequest().build();
         }
         SportsEvent createdEvent = eventService.createEvent(event);
         return ResponseEntity.ok("Created event: " + createdEvent);
+    }
+
+    @PutMapping("/update/{id}")
+    public ResponseEntity<SportsEventDTO> updateEvent(@PathVariable Long id, @RequestBody SportsEvent sportsEvent) {
+        SportsEventDTO editedSportsEvent = eventService.updateEvent(id, sportsEvent);
+
+        if(editedSportsEvent == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        return ResponseEntity.ok(editedSportsEvent);
     }
 
     @GetMapping("/{id}")
@@ -58,9 +69,4 @@ public class EventController {
         return ResponseEntity.ok(activeEvents);
     }
 
-
-    @GetMapping("/userEvents")
-    public ResponseEntity<List<SportsEventDTO>> getUserEvents(@RequestParam Long userId) {
-        return null;
-    }
 }

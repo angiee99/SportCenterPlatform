@@ -6,9 +6,8 @@ import com.velikanovdev.sportcenterplatform.repository.EventRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class EventService {
@@ -23,19 +22,45 @@ public class EventService {
         return eventRepository.save(event);
     }
 
-    public SportsEventDTO getEvent(Long id) {
-        Optional<SportsEvent> sportsEvent = eventRepository.findById(id);
-        SportsEventDTO eventDTO;
-        if(sportsEvent.isPresent()) {
-            eventDTO = convertSportsEventToDTO(List.of(sportsEvent.get())).get(0);
-            return eventDTO;
+//    @Transactional
+    public SportsEventDTO updateEvent(Long id, SportsEvent sportsEvent) {
+        SportsEvent sportsEventToUpdate = eventRepository.findById(id).orElse(null);
+
+        if(sportsEventToUpdate == null) {
+            return null;
         }
-        return null;
+
+        sportsEventToUpdate.setDescription(sportsEvent.getDescription());
+        sportsEventToUpdate.setCapacity(sportsEvent.getCapacity());
+        sportsEventToUpdate.setIsAvailable(sportsEvent.getIsAvailable());
+        sportsEventToUpdate.setEventType(sportsEvent.getEventType());
+        sportsEventToUpdate.setSchedules(sportsEvent.getSchedules());
+        sportsEventToUpdate.setVenue(sportsEvent.getVenue());
+        sportsEventToUpdate.setTrainer(sportsEvent.getTrainer());
+
+        SportsEvent updatedEvent = eventRepository.save(sportsEventToUpdate);
+        SportsEventDTO sportsEventDTO = convertSportsEventsToDTO(updatedEvent);
+        System.out.println(sportsEventDTO);
+        return sportsEventDTO;
+    }
+
+    public SportsEventDTO getEvent(Long id) {
+        SportsEvent sportsEvent = eventRepository.findById(id).orElse(null);
+
+        if(sportsEvent == null) {
+            return null;
+        }
+
+        return convertSportsEventsToDTO(sportsEvent);
+
     }
 
     public List<SportsEventDTO> getAllEvents() {
         List<SportsEvent> sportsEvents = eventRepository.findAll();
-        List<SportsEventDTO> eventDTOS = convertSportsEventToDTO(sportsEvents);
+        List<SportsEventDTO> eventDTOS = sportsEvents
+                .stream()
+                .map(this::convertSportsEventsToDTO)
+                .collect(Collectors.toList());
 
         if(eventDTOS.isEmpty()) {
             return null;
@@ -46,8 +71,11 @@ public class EventService {
 
     public List<SportsEventDTO> getActiveEvents() {
         List<SportsEvent> sportsEvents = eventRepository.findByIsAvailableTrue();
-        List<SportsEventDTO> eventDTOS = convertSportsEventToDTO(sportsEvents);
 
+        List<SportsEventDTO> eventDTOS = sportsEvents
+                .stream()
+                .map(this::convertSportsEventsToDTO)
+                .collect(Collectors.toList());
 
         if (eventDTOS.isEmpty()) {
             return null;
@@ -56,27 +84,18 @@ public class EventService {
         return eventDTOS;
     }
 
-    public List<SportsEventDTO> getUserEvents(Long userId) {
-        return null;
-    }
+    private SportsEventDTO convertSportsEventsToDTO(SportsEvent event) {
 
-    private List<SportsEventDTO> convertSportsEventToDTO(List<SportsEvent> sportsEvents) {
-        List<SportsEventDTO> eventDTOS = new ArrayList<>();
-
-        for(SportsEvent event: sportsEvents) {
-            SportsEventDTO eventDTO = new SportsEventDTO();
-            eventDTO.setId(event.getId());
-            eventDTO.setDescription(event.getDescription());
-            eventDTO.setCapacity(event.getCapacity());
-            eventDTO.setIsAvailable(event.getIsAvailable());
-            eventDTO.setSportType(event.getEventType().getSport());
-            eventDTO.setAgeRestriction(event.getEventType().getAgeRestriction());
-            eventDTO.setEventTypeDescription(event.getEventType().getDescription());
-            eventDTO.setVenueInfo(event.getVenue().toString());
-            eventDTO.setTrainerName(event.getTrainer().getName());
-            eventDTOS.add(eventDTO);
-        }
-
-        return eventDTOS;
+        return new SportsEventDTO(
+                event.getId(),
+                event.getDescription(),
+                event.getCapacity(),
+                event.getIsAvailable(),
+                event.getEventType().getSport(),
+                event.getEventType().getAgeRestriction(),
+                event.getEventType().getDescription(),
+                event.getVenue().toString(),
+                event.getTrainer().getName()
+        );
     }
 }
