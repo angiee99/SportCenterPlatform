@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/eventSignup")
 public class EventSignupController {
@@ -36,5 +38,16 @@ public class EventSignupController {
         }
 
         return ResponseEntity.notFound().build();
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<List<EventSignupDTO>> getUserEvents(@PathVariable Long id) {
+        List<EventSignupDTO> eventSignupDTOS = eventSignupService.getUserEvents(id);
+
+        if(eventSignupDTOS ==  null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        return ResponseEntity.ok(eventSignupDTOS);
     }
 }

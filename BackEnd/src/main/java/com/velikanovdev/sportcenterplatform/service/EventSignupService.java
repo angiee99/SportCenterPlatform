@@ -11,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class EventSignupService {
@@ -35,7 +37,7 @@ public class EventSignupService {
 
         EventSignup eventSignup = new EventSignup(LocalDateTime.now(), user, schedule);
         eventSignupRepository.save(eventSignup);
-        return convertEventSignupToDTO(eventSignup);
+        return convertEventSignupsToDTOs(eventSignup);
     }
 
     public boolean unregisterUserFromSchedule(Long userId, Long scheduleId) {
@@ -49,15 +51,28 @@ public class EventSignupService {
         return true;
     }
 
-    private EventSignupDTO convertEventSignupToDTO(EventSignup eventSignup) {
-        EventSignupDTO dto = new EventSignupDTO();
-        dto.setId(eventSignup.getId());
-        dto.setRegistrationTime(eventSignup.getRegistrationTime());
-        dto.setUsername(eventSignup.getUser().getName());
-        dto.setStartTime(eventSignup.getSchedule().getStartTime());
-        dto.setEndTime(eventSignup.getSchedule().getEndTime());
-        dto.setEventDescription(eventSignup.getSchedule().getSportsEvent().getDescription());
+    public List<EventSignupDTO> getUserEvents(Long userId) {
+        List<EventSignup> eventSignups = eventSignupRepository.getEventSignupByUserId(userId);
+        List<EventSignupDTO> eventSignupDTOS = eventSignups
+                .stream()
+                .map(this::convertEventSignupsToDTOs)
+                .collect(Collectors.toList());
 
-        return dto;
+        if(eventSignupDTOS.isEmpty()) {
+            return null;
+        }
+
+        return eventSignupDTOS;
+    }
+
+    private EventSignupDTO convertEventSignupsToDTOs(EventSignup eventSignup) {
+        return new EventSignupDTO(
+                eventSignup.getId(),
+                eventSignup.getRegistrationTime(),
+                eventSignup.getUser().getName(),
+                eventSignup.getSchedule().getStartTime(),
+                eventSignup.getSchedule().getEndTime(),
+                eventSignup.getSchedule().getSportsEvent().getDescription()
+        );
     }
 }
