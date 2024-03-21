@@ -6,7 +6,6 @@ import com.velikanovdev.sportcenterplatform.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Arrays;
 import java.util.Optional;
 
 @Service
@@ -28,8 +27,8 @@ public class UserService {
         User user = new User();
         user.setEmail(userDTO.email());
         user.setName(userDTO.name());
-        user.setPasswordSalt(Arrays.toString(userDTO.password()));
-        user.setPasswordHash(Arrays.toString(userDTO.password()));
+        user.setPasswordSalt(userDTO.password());
+        user.setPasswordHash(userDTO.password());
 
         User savedUser = userRepository.save(user);
 
