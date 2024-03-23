@@ -2,5 +2,6 @@
     xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
 
     <include file="classpath:config/liquibase/changelog/added_view.xml" relativeToChangelogFile="false" />
+    <include file="classpath:config/liquibase/changelog/fk_cascade.xml" relativeToChangelogFile="false" />
 
 </databaseChangeLog>
