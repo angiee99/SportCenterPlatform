@@ -5,6 +5,7 @@ import com.velikanovdev.sportcenterplatform.entity.enums.SportType;
 import com.velikanovdev.sportcenterplatform.repository.*;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
@@ -25,6 +26,7 @@ public class DemoData implements ApplicationRunner {
     private final EventSignupRepository eventSignupRepository;
     private final ResultRepository resultRepository;
 
+    @Value("${demoData.enabled}")
     private boolean enabled;
     @Autowired
     public DemoData(AddressesRepository addressesRepository, VenueRepository venueRepository, EventTypeRepository eventTypeRepository, SportClubRepository sportClubRepository, UserRepository userRepository, SportsEventRepository sportsEventRepository,
@@ -38,7 +40,6 @@ public class DemoData implements ApplicationRunner {
         this.scheduleRepository = scheduleRepository;
         this.eventSignupRepository = eventSignupRepository;
         this.resultRepository = resultRepository;
-        this.enabled = true;
     }
 
     @Override
