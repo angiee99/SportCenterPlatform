@@ -30,7 +30,7 @@ public class SportsEvent {
     @JoinColumn(name = "event_type_id", foreignKey = @ForeignKey(name = "FK_sports_events_event_types"))
     private EventType eventType;
 
-    @OneToMany(mappedBy = "sportsEvent")
+    @OneToMany(mappedBy = "sportsEvent", cascade = CascadeType.ALL)
     private List<Schedule> schedules;
 
     // Many SportsEvents can be associated with one Venue

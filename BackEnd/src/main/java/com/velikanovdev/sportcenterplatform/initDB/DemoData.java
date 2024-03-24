@@ -38,7 +38,7 @@ public class DemoData implements ApplicationRunner {
         this.scheduleRepository = scheduleRepository;
         this.eventSignupRepository = eventSignupRepository;
         this.resultRepository = resultRepository;
-        this.enabled = false;
+        this.enabled = true;
     }
 
     @Override
@@ -106,6 +106,8 @@ public class DemoData implements ApplicationRunner {
         result.put("grand prize", "Marceline");
         Result result_for_event2 = new Result(result.toString(), event2);
         resultRepository.save(result_for_event2);
+
+        sportsEventRepository.delete(event1);
 
     }
 

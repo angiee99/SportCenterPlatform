@@ -25,7 +25,7 @@ public class Schedule {
     @Column(name = "end_time")
     private LocalDateTime endTime;
 
-    @OneToMany(mappedBy = "schedule")
+    @OneToMany(mappedBy = "schedule", cascade = CascadeType.ALL)
     private List<EventSignup> registrations;
 
     @ManyToOne(fetch = FetchType.LAZY)
