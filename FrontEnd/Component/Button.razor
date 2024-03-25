@@ -1,0 +1,25 @@
+<button class="@ButtonClass" @attributes="AdditionalAttributes" @onclick="OnClick">
+    @ChildContent
+</button>
+
+@code {
+    [Parameter] public string ButtonClass { get; set; }
+    [Parameter] public EventCallback<MouseEventArgs> OnClick { get; set; }
+
+    [Parameter(CaptureUnmatchedValues = true)]
+    public Dictionary<string, object> AdditionalAttributes { get; set; }
+
+    [Parameter] public RenderFragment ChildContent { get; set; }
+
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+
+        // Zkontrolujte, zda je vlastnost 'disabled' přítomna a má hodnotu true
+        if (AdditionalAttributes is not null && AdditionalAttributes.ContainsKey("disabled") && ReferenceEquals(AdditionalAttributes["disabled"], "disabled"))
+        {
+            // Pokud je vlastnost 'disabled' nastavena na true, přidejte novou třídu pro změnu barvy
+            ButtonClass += " bg-secondary";
+        }
+    }
+}

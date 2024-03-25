@@ -1,0 +1,37 @@
+@page "/details/{id}"
+@using SportCenter.Models
+@inject NavigationManager NavigationManager
+
+
+<h3>Details @Id</h3>
+<div class="row">
+    <DetailsItem Title="Id" Value="@Row.Id"/>
+    <DetailsItem Title="Description" Value="@Row.Description"/>
+    <DetailsItem Title="Capacity" Value="@Row.Capacity"/>
+    <DetailsItem Title="Date" Value="@Row.DateTime"/>
+    <DetailsItem Title="Location" Value="@Row.Location"/>
+    <DetailsItem Title="Type" Value="@Row.Type"/>
+</div>
+
+@code {
+    [Parameter] public string Id { get; set; }
+
+    TableData Row { get; set; }
+
+    protected override void OnInitialized()
+    {
+        int id;
+        if (string.IsNullOrEmpty(Id) || !int.TryParse(Id, out id))
+        {
+            NavigationManager.NavigateTo("/");
+            return;
+        }
+
+        Row = GlobalData.Records.FirstOrDefault(record => record.Id == id);
+
+        if (Row == null)
+        {
+            throw new Exception("Row not found! Need to fetch from server.");
+        }
+    }
+}

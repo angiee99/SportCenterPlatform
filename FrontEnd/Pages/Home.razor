@@ -1,6 +1,9 @@
 @page "/"
 @using SportCenter.Models
 @using SportCenter.Enum
+@inject NavigationManager NavigationManager
+
+
 
 <PageTitle>Home</PageTitle>
 
@@ -32,31 +35,32 @@
             }
         </tr >
         </thead>
-        <tbody>
-        @for (int i = (CurrentPage - 1) * CurrentPageSize; i < Math.Min(CurrentPageSize * CurrentPage, _data.Count); i++)
+        <tbody class="border-1">
+        @for (int i = (CurrentPage - 1) * CurrentPageSize; i < Math.Min(CurrentPageSize * CurrentPage, GlobalData.Records.Count); i++)
         {
-            var row = _data[i];
-            <tr>
-                <td class="text-center">
+            var row = GlobalData.Records[i];
+            
+            <tr style="@(i % 2 == 0 ? "" : "background-color: #d3d3d3;")">
+                <td class="p-1 text-center">
                     @row.Id
                 </td>
-                <td class="text-center">
+                <td class="p-1 text-center">
                     @row.Description
                 </td>
-                <td class="text-center">
+                <td class="p-1 text-center">
                     @row.Capacity
                 </td>
-                <td class="text-center">
+                <td class="p-1text-center">
                     @row.DateTime
                 </td>
-                <td class="text-center">
+                <td class="p-1 text-center">
                     @row.Location
                 </td>
-                <td class="text-center">
+                <td class="p-1 text-center">
                     @row.Type
                 </td>
-                <td>
-                    <button>Podrobnosti</button>
+                <td class="p-1">
+                <Button @onclick="(e) => ShowDetails(row.Id)">Podrobnosti</Button>
                 </td>
             </tr>
         }
@@ -64,10 +68,10 @@
     </table>
 </div>
 <div class="flex pagination gap-1">
-    <button @onclick="@FirstPage">Go to first page</button>
-    <button @onclick="@PreviousPage">Previous page</button>
-    <button @onclick="@NextPage">Next page</button>
-    <button class="ajndfvdavk" @onclick="@LastPage">Go to last page</button>
+    <Button @onclick="@FirstPage">Go to first page</Button>
+    <Button @onclick="@PreviousPage">Previous page</Button>
+    <Button @onclick="@NextPage">Next page</Button>
+    <Button @onclick="@LastPage">Go to last page</Button>
     <span>
         Page <strong>@(CurrentPage) of @TotalPages</strong>
     </span>
@@ -85,7 +89,7 @@
 
 @code
 {
-    int[] PageSizes { get; set; } = [5, 10, 20, 50];
+    int[] PageSizes { get; } = [5, 10, 20, 50];
     int CurrentPage { get; set; }
     int CurrentPageSize { get; set; }
     int TotalPages { get; set; }
@@ -95,19 +99,20 @@
         return new TableData(id, description, capacity, date, altitude, latitude, adresa, sport);
     }
 
-    readonly List<TableData> _data = new List<TableData>(60);
 
     protected override void OnInitialized()
     {
+        // TODO remove when server is ready
         Random random = new Random();
+        
+        GlobalData.Records = new List<TableData>(60);;
         for (int i = 0; i < 60; i++)
         {
-            _data.Add(DataGenerator(i, "Popis" + random.Next(100), random.Next(0, 20), DateTime.Now, random.NextDouble() * 50, random.NextDouble() * 50, "Adresa", (SportType)random.Next(0, 20)));
+            GlobalData.Records.Add(DataGenerator(i, "Popis" + random.Next(100), random.Next(0, 20), DateTime.Now, random.NextDouble() * 50, random.NextDouble() * 50, "Adresa", (SportType)random.Next(0, 20)));
         }
 
         CurrentPage = 1;
-        CurrentPageSize = 5;
-        TotalPages = (int)Math.Ceiling(_data.Count / (double)CurrentPageSize);
+        SetPageSize(PageSizes[0]);
     }
 
 
@@ -124,9 +129,11 @@
     private void SetPageSize(int pageSize)
     {
         CurrentPageSize = pageSize;
-        TotalPages = (int)Math.Ceiling(_data.Count / (double)CurrentPageSize);
+        TotalPages = (int)Math.Ceiling(GlobalData.Records.Count / (double)CurrentPageSize);
     }
 
+    // PAGENATION
+    
     private void GoToPage(int page)
     {
         if (page > 0 && page <= TotalPages)
@@ -153,5 +160,10 @@
     private void PreviousPage()
     {
         GoToPage(CurrentPage - 1);
+    }
+    
+    private void ShowDetails(long id)
+    {
+        NavigationManager.NavigateTo($"/details/{id}");
     }
 }

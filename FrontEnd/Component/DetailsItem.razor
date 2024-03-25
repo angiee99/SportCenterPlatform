@@ -1,0 +1,10 @@
+<div class="col-lg-6 my-2">
+    <div class="shadow-lg p-4">
+        <b>@Title:</b> @Value
+    </div>
+</div>
+
+@code {
+    [Parameter] public string Title { get; set; }
+    [Parameter] public object Value { get; set; }
+}
