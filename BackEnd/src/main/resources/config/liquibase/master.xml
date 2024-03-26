@@ -3,5 +3,6 @@
 
     <include file="classpath:config/liquibase/changelog/added_view.xml" relativeToChangelogFile="false" />
     <include file="classpath:config/liquibase/changelog/fk_cascade.xml" relativeToChangelogFile="false" />
+    <include file="classpath:config/liquibase/changelog/fk_cascade_results.xml" relativeToChangelogFile="false" />
 
 </databaseChangeLog>
