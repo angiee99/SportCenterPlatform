@@ -1,11 +1,8 @@
 package com.velikanovdev.sportcenterplatform.dto;
 
 import com.velikanovdev.sportcenterplatform.entity.enums.SportType;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 
-public record SportsEventDTO(
+public record SportsEventInfoDTO(
         Long id,
         String description,
         Integer capacity,
