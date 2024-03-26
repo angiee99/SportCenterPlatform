@@ -25,11 +25,8 @@ public class User {
     @Column(name = "email", nullable = false, unique = true)
     private String email;
 
-    @Column(name = "password_hash", nullable = false)
-    private String passwordHash;
-
-    @Column(name = "password_salt", nullable = false)
-    private String passwordSalt;
+    @Column(name = "password", nullable = false)
+    private String password;
 
     @OneToMany(mappedBy = "trainer")
     @ToString.Exclude
@@ -45,18 +42,16 @@ public class User {
     @ToString.Exclude
     private SportClub sportClub;
 
-    public User(String name, String email, String passwordHash, String passwordSalt) {
+    public User(String name, String email, String password) {
         this.name = name;
         this.email = email;
-        this.passwordHash = passwordHash;
-        this.passwordSalt = passwordSalt;
+        this.password = password;
     }
 
-    public User(String name, String email, String passwordHash, String passwordSalt, SportClub sportClub) {
+    public User(String name, String email, String password, SportClub sportClub) {
         this.name = name;
         this.email = email;
-        this.passwordHash = passwordHash;
-        this.passwordSalt = passwordSalt;
+        this.password = password;
         this.sportClub = sportClub;
     }
 

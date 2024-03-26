@@ -66,13 +66,13 @@ public class DemoData implements ApplicationRunner {
         sportClubRepository.saveAll(List.of(club1, club2));
 
         User user1 = new User("Jake", "jakethedog@gmail.com",
-                "iloveladyrainicorn", "difoG89kfdgs'$h", club2);
+                "iloveladyrainicorn", club2);
         User user2 = new User("Finn", "finnthehuman@gmail.com",
-                "enchiridion78", "pdisJoewlNKl090_ldf");
+                "enchiridion78");
         User user3 = new User("Bubblegum", "bonnibelle@gmail.com",
-                "timitimi1", "kfdlIhpo6^K;lsdkf");
+                "timitimi1");
         User user4 = new User("Marceline", "marcythequeen@gmail.com",
-                "dontTakeMyFries", "78kdoAAwiefl8-dk");
+                "dontTakeMyFries");
         userRepository.saveAll(List.of(user1, user2 ,user3, user4));
 
         SportsEvent event1 = new SportsEvent("Game kick-off!", false, 20, eventType1, venue1, user1);
@@ -110,13 +110,5 @@ public class DemoData implements ApplicationRunner {
 
         sportsEventRepository.delete(event1);
 
-    }
-
-    public boolean isEnabled() {
-        return enabled;
-    }
-
-    public void setEnabled(boolean enabled) {
-        this.enabled = enabled;
     }
 }
