@@ -1,8 +1,10 @@
 package com.velikanovdev.sportcenterplatform.controller;
 
 import com.velikanovdev.sportcenterplatform.dto.SportsEventDTO;
+import com.velikanovdev.sportcenterplatform.dto.SportsEventInfoDTO;
 import com.velikanovdev.sportcenterplatform.entity.SportsEvent;
 import com.velikanovdev.sportcenterplatform.service.EventService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -20,17 +22,18 @@ public class EventController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<?> createEvent(@RequestBody SportsEvent event) {
-        if(event == null) {
-            return ResponseEntity.badRequest().build();
+    public ResponseEntity<?> createEvent(@Valid @RequestBody SportsEventDTO eventDTO) {
+        if(eventDTO == null) {
+            return ResponseEntity.badRequest().body("Request body is empty");
         }
-        SportsEvent createdEvent = eventService.createEvent(event);
-        return ResponseEntity.ok("Created event: " + createdEvent);
+
+        SportsEvent createdEvent = eventService.createEvent(eventDTO);
+        return ResponseEntity.ok("Created event with id " + createdEvent.getId());
     }
 
     @PutMapping("/update/{id}")
-    public ResponseEntity<SportsEventDTO> updateEvent(@PathVariable Long id, @RequestBody SportsEvent sportsEvent) {
-        SportsEventDTO editedSportsEvent = eventService.updateEvent(id, sportsEvent);
+    public ResponseEntity<SportsEventInfoDTO> updateEvent(@PathVariable Long id, @RequestBody SportsEventDTO eventDTO) {
+        SportsEventInfoDTO editedSportsEvent = eventService.updateEvent(id, eventDTO);
 
         if(editedSportsEvent == null) {
             return ResponseEntity.notFound().build();
@@ -40,8 +43,8 @@ public class EventController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<SportsEventDTO> getEvent(@PathVariable Long id) {
-        SportsEventDTO sportEvent = eventService.getEvent(id);
+    public ResponseEntity<SportsEventInfoDTO> getEvent(@PathVariable Long id) {
+        SportsEventInfoDTO sportEvent = eventService.getEvent(id);
         if(sportEvent == null) {
             return ResponseEntity.notFound().build();
         }
@@ -49,8 +52,8 @@ public class EventController {
     }
 
     @GetMapping("/allEvents")
-    public ResponseEntity<List<SportsEventDTO>> getAllEvents() {
-        List<SportsEventDTO> sportsEvents = eventService.getAllEvents();
+    public ResponseEntity<List<SportsEventInfoDTO>> getAllEvents() {
+        List<SportsEventInfoDTO> sportsEvents = eventService.getAllEvents();
 
         if(sportsEvents == null) {
             return ResponseEntity.notFound().build();
@@ -59,8 +62,8 @@ public class EventController {
     }
 
     @GetMapping("/activeEvents")
-    public ResponseEntity<List<SportsEventDTO>> getActiveEvents() {
-        List<SportsEventDTO> activeEvents = eventService.getActiveEvents();
+    public ResponseEntity<List<SportsEventInfoDTO>> getActiveEvents() {
+        List<SportsEventInfoDTO> activeEvents = eventService.getActiveEvents();
 
         if(activeEvents == null) {
             return ResponseEntity.notFound().build();
@@ -69,4 +72,10 @@ public class EventController {
         return ResponseEntity.ok(activeEvents);
     }
 
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<?> deleteEvent(@PathVariable Long id) {
+        eventService.deleteEvent(id);
+
+        return ResponseEntity.ok("Sports Event with id " + id + " was successfully deleted");
+    }
 }
