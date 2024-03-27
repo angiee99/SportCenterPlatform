@@ -1,27 +1,16 @@
 package com.velikanovdev.sportcenterplatform.service;
 
+import com.velikanovdev.sportcenterplatform.dto.SportsEventDTO;
+import com.velikanovdev.sportcenterplatform.dto.SportsEventInfoDTO;
 import com.velikanovdev.sportcenterplatform.entity.SportsEvent;
-import com.velikanovdev.sportcenterplatform.repository.EventRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
-import java.util.Optional;
+import java.util.List;
 
-@Service
-public class EventService {
-    private final EventRepository eventRepository;
-
-    @Autowired
-    public EventService(EventRepository eventRepository) {
-        this.eventRepository = eventRepository;
-    }
-
-    public SportsEvent createEvent(SportsEvent event) {
-        return eventRepository.save(event);
-    }
-
-    public SportsEvent showEventDetails(Long id) {
-        Optional<SportsEvent> sportsEvent = eventRepository.findById(id);
-        return sportsEvent.orElse(null);
-    }
+public interface EventService {
+    SportsEvent createEvent(SportsEventDTO eventDTO);
+    SportsEventInfoDTO updateEvent(Long id, SportsEventDTO eventDTO);
+    SportsEventInfoDTO getEvent(Long id);
+    List<SportsEventInfoDTO> getAllEvents();
+    List<SportsEventInfoDTO> getActiveEvents();
+    void deleteEvent(Long id);
 }

@@ -1,3 +1,11 @@
 package com.velikanovdev.sportcenterplatform.dto;
 
-public record UserDTO (String email, String name, char[] password){}
+
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+
+public record UserDTO(
+        @NotBlank(message = "Email is required") @Email(message = "Email is not valid") String email,
+        @NotBlank(message = "Username is required") String username,
+        @NotBlank(message = "Password is required") String password
+) {}

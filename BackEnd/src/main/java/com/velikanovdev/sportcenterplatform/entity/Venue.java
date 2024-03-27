@@ -1,17 +1,15 @@
 package com.velikanovdev.sportcenterplatform.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import org.hibernate.proxy.HibernateProxy;
 
 import java.util.List;
+import java.util.Objects;
 
-@AllArgsConstructor
-@NoArgsConstructor
-@Data
 @Getter
+@Setter
+@RequiredArgsConstructor
 @Entity
 @Table(name = "venues")
 public class Venue {
@@ -28,10 +26,12 @@ public class Venue {
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "address_id", foreignKey = @ForeignKey(name = "FK_venues_address"))
+    @ToString.Exclude
     private Address address;
 
     // One Venue can be associated with many SportsEvents
     @OneToMany(mappedBy = "venue")
+    @ToString.Exclude
     private List<SportsEvent> sportsEvents;
 
     public Venue(Integer number, Integer floor, Address address) {
@@ -40,4 +40,25 @@ public class Venue {
         this.address = address;
     }
 
+    @Override
+    public String toString() {
+        return "number=" + number +
+                ", floor=" + floor + ", " + address;
+    }
+
+    @Override
+    public final boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null) return false;
+        Class<?> oEffectiveClass = o instanceof HibernateProxy ? ((HibernateProxy) o).getHibernateLazyInitializer().getPersistentClass() : o.getClass();
+        Class<?> thisEffectiveClass = this instanceof HibernateProxy ? ((HibernateProxy) this).getHibernateLazyInitializer().getPersistentClass() : this.getClass();
+        if (thisEffectiveClass != oEffectiveClass) return false;
+        Venue venue = (Venue) o;
+        return getId() != null && Objects.equals(getId(), venue.getId());
+    }
+
+    @Override
+    public final int hashCode() {
+        return this instanceof HibernateProxy ? ((HibernateProxy) this).getHibernateLazyInitializer().getPersistentClass().hashCode() : getClass().hashCode();
+    }
 }

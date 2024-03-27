@@ -5,6 +5,7 @@ import com.velikanovdev.sportcenterplatform.entity.enums.SportType;
 import com.velikanovdev.sportcenterplatform.repository.*;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
@@ -22,10 +23,14 @@ public class DemoData implements ApplicationRunner {
     private final UserRepository userRepository;
     private final SportsEventRepository sportsEventRepository;
     private final ScheduleRepository scheduleRepository;
-    private final RegistrationRepository registrationRepository;
+    private final EventSignupRepository eventSignupRepository;
     private final ResultRepository resultRepository;
+
+    @Value("${demoData.enabled}")
+    private boolean enabled;
     @Autowired
-    public DemoData(AddressesRepository addressesRepository, VenueRepository venueRepository, EventTypeRepository eventTypeRepository, SportClubRepository sportClubRepository, UserRepository userRepository, SportsEventRepository sportsEventRepository, ScheduleRepository scheduleRepository, RegistrationRepository registrationRepository, ResultRepository resultRepository) {
+    public DemoData(AddressesRepository addressesRepository, VenueRepository venueRepository, EventTypeRepository eventTypeRepository, SportClubRepository sportClubRepository, UserRepository userRepository, SportsEventRepository sportsEventRepository,
+                    ScheduleRepository scheduleRepository, EventSignupRepository eventSignupRepository, ResultRepository resultRepository) {
         this.addressesRepository = addressesRepository;
         this.venueRepository = venueRepository;
         this.eventTypeRepository = eventTypeRepository;
@@ -33,12 +38,13 @@ public class DemoData implements ApplicationRunner {
         this.userRepository = userRepository;
         this.sportsEventRepository = sportsEventRepository;
         this.scheduleRepository = scheduleRepository;
-        this.registrationRepository = registrationRepository;
+        this.eventSignupRepository = eventSignupRepository;
         this.resultRepository = resultRepository;
     }
 
     @Override
     public void run(ApplicationArguments args) {
+        if(!enabled) return;
         Address address1 = new Address( "23456", "Palachova", "1", "Hradec Kralove");
         Address address2 = new Address( "23400", "Benesova", "306", "Hradec Kralove");
         addressesRepository.saveAll(List.of(address1, address2));
@@ -60,40 +66,40 @@ public class DemoData implements ApplicationRunner {
         sportClubRepository.saveAll(List.of(club1, club2));
 
         User user1 = new User("Jake", "jakethedog@gmail.com",
-                "iloveladyrainicorn", "difoG89kfdgs'$h", club2);
+                "iloveladyrainicorn", club2);
         User user2 = new User("Finn", "finnthehuman@gmail.com",
-                "enchiridion78", "pdisJoewlNKl090_ldf");
+                "enchiridion78");
         User user3 = new User("Bubblegum", "bonnibelle@gmail.com",
-                "timitimi1", "kfdlIhpo6^K;lsdkf");
+                "timitimi1");
         User user4 = new User("Marceline", "marcythequeen@gmail.com",
-                "dontTakeMyFries", "78kdoAAwiefl8-dk");
+                "dontTakeMyFries");
         userRepository.saveAll(List.of(user1, user2 ,user3, user4));
 
-        SportsEvent event1 = new SportsEvent("Game kick-off!", eventType1, venue1, user1);
-        SportsEvent event2 = new SportsEvent("Get some rest from school – come&play", eventType2, venue2, user2);
+        SportsEvent event1 = new SportsEvent("Game kick-off!", false, 20, eventType1, venue1, user1);
+        SportsEvent event2 = new SportsEvent("Get some rest from school – come&play", true, 36, eventType2, venue2, user2);
         sportsEventRepository.saveAll(List.of(event1, event2));
 
-        Schedule schedule1_1 = new Schedule(20,  LocalDateTime.of(2024, 4, 12, 13, 0),
+        Schedule schedule1_1 = new Schedule( LocalDateTime.of(2024, 4, 12, 13, 0),
                 LocalDateTime.of(2024, 4, 12, 15, 0),
                 event1);
-        Schedule schedule1_2 = new Schedule(30,  LocalDateTime.of(2024, 4, 12, 16, 0),
+        Schedule schedule1_2 = new Schedule( LocalDateTime.of(2024, 4, 12, 16, 0),
                 LocalDateTime.of(2024, 4, 15, 18, 0),
                 event1);
-        Schedule schedule2 = new Schedule(26,  LocalDateTime.of(2024, 4, 5, 16, 30),
+        Schedule schedule2 = new Schedule( LocalDateTime.of(2024, 4, 5, 16, 30),
                 LocalDateTime.of(2024, 4, 5, 18, 0),
                 event2);
-        Schedule schedule3 = new Schedule(26,  LocalDateTime.of(2024, 3, 14, 16, 30),
+        Schedule schedule3 = new Schedule( LocalDateTime.of(2024, 3, 14, 16, 30),
                 LocalDateTime.of(2024, 3, 14, 18, 0),
                 event2);
         scheduleRepository.saveAll(List.of(schedule1_1, schedule1_2, schedule2, schedule3));
 
-        Registration registration1 =  new Registration(LocalDateTime.now(), user2, schedule1_1);
-        Registration registration2 =  new Registration(LocalDateTime.now().minusDays(3), user4, schedule1_1);
-        Registration registration3 =  new Registration(LocalDateTime.now().plusDays(2), user3, schedule2);
-        Registration registration4 =  new Registration(LocalDateTime.now().plusDays(1), user4, schedule2);
-        Registration registration5 =  new Registration(LocalDateTime.now().minusDays(20), user1, schedule3);
-        Registration registration6 =  new Registration(LocalDateTime.now().minusDays(15), user4, schedule3);
-        registrationRepository.saveAll(List.of(registration1, registration2, registration3,
+        EventSignup registration1 =  new EventSignup(LocalDateTime.now(), user2, schedule1_1);
+        EventSignup registration2 =  new EventSignup(LocalDateTime.now().minusDays(3), user4, schedule1_1);
+        EventSignup registration3 =  new EventSignup(LocalDateTime.now().plusDays(2), user3, schedule2);
+        EventSignup registration4 =  new EventSignup(LocalDateTime.now().plusDays(1), user4, schedule2);
+        EventSignup registration5 =  new EventSignup(LocalDateTime.now().minusDays(20), user1, schedule3);
+        EventSignup registration6 =  new EventSignup(LocalDateTime.now().minusDays(15), user4, schedule3);
+        eventSignupRepository.saveAll(List.of(registration1, registration2, registration3,
                 registration4, registration5, registration6));
 
         JSONObject result = new JSONObject();
@@ -101,6 +107,8 @@ public class DemoData implements ApplicationRunner {
         result.put("grand prize", "Marceline");
         Result result_for_event2 = new Result(result.toString(), event2);
         resultRepository.save(result_for_event2);
+
+        sportsEventRepository.delete(event1);
 
     }
 }

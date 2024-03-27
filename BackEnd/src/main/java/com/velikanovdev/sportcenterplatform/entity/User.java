@@ -1,17 +1,16 @@
 package com.velikanovdev.sportcenterplatform.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import org.hibernate.proxy.HibernateProxy;
 
 import java.util.List;
+import java.util.Objects;
 
-@AllArgsConstructor
-@NoArgsConstructor
-@Data
 @Getter
+@Setter
+@ToString
+@RequiredArgsConstructor
 @Entity
 @Table(name = "users")
 public class User {
@@ -26,36 +25,49 @@ public class User {
     @Column(name = "email", nullable = false, unique = true)
     private String email;
 
-    @Column(name = "password_hash", nullable = false)
-    private String passwordHash;
-
-    @Column(name = "password_salt", nullable = false)
-    private String passwordSalt;
+    @Column(name = "password", nullable = false)
+    private String password;
 
     @OneToMany(mappedBy = "trainer")
+    @ToString.Exclude
     private List<SportsEvent> sportsEvents;
 
     // Assuming a user can have multiple registrations
     @OneToMany(mappedBy = "user")
-    private List<Registration> registrations;
+    @ToString.Exclude
+    private List<EventSignup> eventSignups;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "sport_club_id", foreignKey = @ForeignKey(name = "FK_users_sport_clubs"))
+    @ToString.Exclude
     private SportClub sportClub;
 
-    public User(String name, String email, String passwordHash, String passwordSalt) {
+    public User(String name, String email, String password) {
         this.name = name;
         this.email = email;
-        this.passwordHash = passwordHash;
-        this.passwordSalt = passwordSalt;
+        this.password = password;
     }
 
-    public User(String name, String email, String passwordHash, String passwordSalt, SportClub sportClub) {
+    public User(String name, String email, String password, SportClub sportClub) {
         this.name = name;
         this.email = email;
-        this.passwordHash = passwordHash;
-        this.passwordSalt = passwordSalt;
+        this.password = password;
         this.sportClub = sportClub;
     }
 
+    @Override
+    public final boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null) return false;
+        Class<?> oEffectiveClass = o instanceof HibernateProxy ? ((HibernateProxy) o).getHibernateLazyInitializer().getPersistentClass() : o.getClass();
+        Class<?> thisEffectiveClass = this instanceof HibernateProxy ? ((HibernateProxy) this).getHibernateLazyInitializer().getPersistentClass() : this.getClass();
+        if (thisEffectiveClass != oEffectiveClass) return false;
+        User user = (User) o;
+        return getId() != null && Objects.equals(getId(), user.getId());
+    }
+
+    @Override
+    public final int hashCode() {
+        return this instanceof HibernateProxy ? ((HibernateProxy) this).getHibernateLazyInitializer().getPersistentClass().hashCode() : getClass().hashCode();
+    }
 }

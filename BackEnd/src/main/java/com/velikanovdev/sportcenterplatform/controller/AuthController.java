@@ -2,11 +2,10 @@ package com.velikanovdev.sportcenterplatform.controller;
 
 import com.velikanovdev.sportcenterplatform.dto.UserDTO;
 import com.velikanovdev.sportcenterplatform.service.UserService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class AuthController {
@@ -18,7 +17,7 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<?> register(@RequestBody UserDTO userDTO) {
+    public ResponseEntity<?> register(@Valid @RequestBody UserDTO userDTO) {
         Long id = userService.registerUser(userDTO);
         if(id == null) {
             return ResponseEntity.badRequest().body("User with email " + userDTO.email() + " already exists");

@@ -16,7 +16,7 @@ public class AddressRepositoryTest {
     @Test
     @Transactional
     public void insertAddress() {
-        Address address = new Address(null, "23456", "Palachova", "1", "Hradec");
+        Address address = new Address("23456", "Palachova", "1", "Hradec");
         addressesRepository.save(address);
         Assertions.assertTrue(addressesRepository.existsById(1L));
     }
