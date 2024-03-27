@@ -5,5 +5,6 @@ import org.springframework.stereotype.Service;
 
 @Service
 public interface UserService {
-    Long registerUser(UserDTO userDTO);
+    UserDTO login(String email, String password);
+    Long register(UserDTO userDTO);
 }
