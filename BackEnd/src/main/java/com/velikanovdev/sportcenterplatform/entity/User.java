@@ -20,7 +20,7 @@ public class User {
     private Long id;
 
     @Column(name = "name", nullable = false)
-    private String name;
+    private String username;
 
     @Column(name = "email", nullable = false, unique = true)
     private String email;
@@ -42,15 +42,15 @@ public class User {
     @ToString.Exclude
     private SportClub sportClub;
 
-    public User(String name, String email, String password) {
-        this.name = name;
+    public User(String email, String username, String password) {
         this.email = email;
+        this.username = username;
         this.password = password;
     }
 
-    public User(String name, String email, String password, SportClub sportClub) {
-        this.name = name;
+    public User(String email, String username, String password, SportClub sportClub) {
         this.email = email;
+        this.username = username;
         this.password = password;
         this.sportClub = sportClub;
     }

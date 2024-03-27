@@ -91,7 +91,7 @@ public class EventServiceImpl implements EventService {
                 event.getEventType().getAgeRestriction(),
                 event.getEventType().getDescription(),
                 event.getVenue().toString(),
-                event.getTrainer().getName()
+                event.getTrainer().getUsername()
         );
     }
 

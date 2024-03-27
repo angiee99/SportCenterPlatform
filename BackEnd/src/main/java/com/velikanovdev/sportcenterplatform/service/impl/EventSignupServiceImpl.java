@@ -68,7 +68,7 @@ public class EventSignupServiceImpl implements EventSignupService {
         return new EventSignupDTO(
                 eventSignup.getId(),
                 eventSignup.getRegistrationTime(),
-                eventSignup.getUser().getName(),
+                eventSignup.getUser().getUsername(),
                 eventSignup.getSchedule().getStartTime(),
                 eventSignup.getSchedule().getEndTime(),
                 eventSignup.getSchedule().getSportsEvent().getDescription()
