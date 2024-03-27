@@ -51,7 +51,7 @@ public class EventController {
         return ResponseEntity.ok(sportEvent);
     }
 
-    @GetMapping("/allEvents")
+    @GetMapping("/all")
     public ResponseEntity<List<SportsEventInfoDTO>> getAllEvents() {
         List<SportsEventInfoDTO> sportsEvents = eventService.getAllEvents();
 
