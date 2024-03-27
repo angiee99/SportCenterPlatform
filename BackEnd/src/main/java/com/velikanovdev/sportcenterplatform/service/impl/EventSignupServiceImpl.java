@@ -36,6 +36,10 @@ public class EventSignupServiceImpl implements EventSignupService {
         Schedule schedule = scheduleRepository.findById(scheduleId)
                 .orElseThrow(() -> new EntityNotFoundException("Schedule not found with ID: " + scheduleId));
 
+        if(eventSignupRepository.findByUserIdAndAndScheduleId(userId, scheduleId).isPresent()) {
+            throw new IllegalStateException("User is already signed up for this schedule");
+        }
+
         EventSignup eventSignup = new EventSignup(LocalDateTime.now(), user, schedule);
         eventSignupRepository.save(eventSignup);
         return convertEventSignupsToDTOs(eventSignup);
@@ -44,7 +48,8 @@ public class EventSignupServiceImpl implements EventSignupService {
     @Override
     public boolean unregisterUserFromSchedule(Long userId, Long scheduleId) {
         EventSignup eventSignup = eventSignupRepository.findByUserIdAndAndScheduleId(userId, scheduleId)
-                .orElseThrow(() -> new EntityNotFoundException("User or Schedule was not found"));
+                .orElseThrow(() -> new EntityNotFoundException("Event Signup for user with ID: " + userId +
+                                " and Schedule with ID: " + scheduleId + " was not found"));
 
         eventSignupRepository.delete(eventSignup);
         return true;
